@@ -16,7 +16,7 @@
         async function getTokenBalance() {
             const walletAddress = document.getElementById('wallet').value;
             const contractAddress = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";
-            const apiKey = "I4RZUU557FXN8KRYCBV76JUGZZYJQDKF7F"; // Remplace par ta clé API si nécessaire
+            const apiKey = "I4RZUU557FXN8KRYCBV76JUGZZYJQDKF7F"; // Remplace par ta clé API
 
             const apiUrl = `https://api.basescan.org/api?module=account&action=tokenbalance&contractaddress=${contractAddress}&address=${walletAddress}&tag=latest&apikey=${apiKey}`;
 
@@ -25,13 +25,13 @@
                 const result = response.data;
 
                 if (result.status === "1") {
-                    document.getElementById('result').innerText = `Solde du token: ${result.result}`;
+                    document.getElementById('result').innerText = `Solde du token : ${result.result}`;
                 } else {
                     document.getElementById('result').innerText = 'Erreur : ' + result.message;
                 }
             } catch (error) {
                 console.error("Erreur d'API :", error.response ? error.response.data : error.message);
-                document.getElementById('result').innerText = 'Erreur lors de la récupération du solde: ' + (error.response ? error.response.data.message : error.message);
+                document.getElementById('result').innerText = 'Erreur lors de la récupération du solde : ' + (error.response ? error.response.data.message : error.message);
             }
         }
     </script>
