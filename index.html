@@ -8,6 +8,14 @@
 </head>
 <body>
     <h1>Vérifiez votre possession de Token</h1>
+    
+    <!-- Menu déroulant pour choisir la blockchain -->
+    <label for="blockchain">Choisissez une blockchain :</label>
+    <select id="blockchain">
+        <option value="base">Base</option>
+        <!-- Tu peux ajouter d'autres blockchains ici -->
+    </select>
+
     <input type="text" id="wallet" placeholder="Entrez une adresse Ethereum" value="0x0B386dC002C07118a8BA421Fb53425261B268cDa">
     <button onclick="checkTokenOwnership()">Vérifier la Possession</button>
     <pre id="result"></pre>
@@ -15,8 +23,16 @@
     <script>
         async function checkTokenOwnership() {
             const walletAddress = document.getElementById('wallet').value;
-            const contractAddress = "0x1195cf65f83b3a5768f3c496d3a05ad6412c64b7";
-            const apiKey = "I4RZUU557FXN8KRYCBV76JUGZZYJQDKF7F"; // Remplace par ta clé API
+            const selectedBlockchain = document.getElementById('blockchain').value;
+
+            let contractAddress;
+            let apiKey = "I4RZUU557FXN8KRYCBV76JUGZZYJQDKF7F"; // Remplace par ta clé API
+
+            // Vérifie quelle blockchain est sélectionnée et définit le contrat associé
+            if (selectedBlockchain === "base") {
+                contractAddress = "0x03A4BAF3c9450aa25eD21B042001F53D129caEb3"; // Adresse du token sur Base
+            } 
+            // Tu peux ajouter d'autres blockchains et leurs contrats ici
 
             const apiUrl = `https://api.basescan.org/api?module=account&action=tokenbalance&contractaddress=${contractAddress}&address=${walletAddress}&tag=latest&apikey=${apiKey}`;
 
@@ -26,10 +42,12 @@
 
                 if (result.status === "1") {
                     const balance = parseInt(result.result);
+                    document.getElementById('result').innerText = `Solde du token : ${balance}`; // Afficher le solde pour débogage
+
                     if (balance > 0) {
-                        document.getElementById('result').innerText = "Owned";
+                        document.getElementById('result').innerText += "\nOwned";
                     } else {
-                        document.getElementById('result').innerText = "GET IT !";
+                        document.getElementById('result').innerText += "\nGET IT !";
                     }
                 } else {
                     document.getElementById('result').innerText = 'Erreur : ' + result.message;
