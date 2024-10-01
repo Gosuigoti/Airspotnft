@@ -15,24 +15,21 @@
     <script>
         async function getTokens() {
             const walletAddress = document.getElementById('wallet').value;
+            const nftToCheck = "0x4aD3cd57A68149A5C5D8a41919DC8aC02D00a366"; // Adresse du NFT à vérifier
             const apiUrl = `https://api.zora.energy/v1/nft/balances?owner=${walletAddress}`;
 
             try {
                 const response = await axios.get(apiUrl);
-                const items = response.data.items; // Modifié pour correspondre à la structure fournie
+                const items = response.data.items;
 
                 if (items && items.length > 0) {
-                    let output = items.map(item => ({
-                        name: item.name,
-                        address: item.address,
-                        symbol: item.symbol,
-                        exchange_rate: item.exchange_rate,
-                        total_supply: item.total_supply,
-                        icon_url: item.icon_url,
-                        token_url: item.token_url,
-                    }));
-                    
-                    document.getElementById('result').innerText = JSON.stringify(output, null, 2);
+                    let nftFound = items.some(item => item.address === nftToCheck);
+
+                    if (nftFound) {
+                        document.getElementById('result').innerText = `Vous possédez le NFT avec l'adresse : ${nftToCheck}`;
+                    } else {
+                        document.getElementById('result').innerText = `Vous ne possédez pas le NFT avec l'adresse : ${nftToCheck}`;
+                    }
                 } else {
                     document.getElementById('result').innerText = 'Aucun token trouvé pour cette adresse.';
                 }
