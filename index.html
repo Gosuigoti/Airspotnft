@@ -22,7 +22,14 @@
                 const nfts = response.data.data;
 
                 if (nfts && nfts.length > 0) {
-                    document.getElementById('result').innerText = JSON.stringify(nfts, null, 2);
+                    let output = nfts.map(nft => ({
+                        name: nft.token_instance.metadata.name,
+                        description: nft.token_instance.metadata.description,
+                        image_url: nft.token_instance.image_url,
+                        external_url: nft.token_instance.external_app_url
+                    }));
+                    
+                    document.getElementById('result').innerText = JSON.stringify(output, null, 2);
                 } else {
                     document.getElementById('result').innerText = 'Aucun NFT trouvé pour cette adresse.';
                 }
@@ -35,6 +42,3 @@
     </script>
 </body>
 </html>
-
-
-
