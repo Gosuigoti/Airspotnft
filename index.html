@@ -21,18 +21,20 @@
                 const response = await axios.get(apiUrl);
                 const nfts = response.data.data;
 
-                if (nfts.length > 0) {
+                if (nfts && nfts.length > 0) {
                     document.getElementById('result').innerText = JSON.stringify(nfts, null, 2);
                 } else {
                     document.getElementById('result').innerText = 'Aucun NFT trouvé pour cette adresse.';
                 }
             } catch (error) {
-                console.error("Erreur d'API :", error);
-                document.getElementById('result').innerText = 'Erreur lors de la récupération des NFT';
+                // Affichage de l'erreur détaillée
+                console.error("Erreur d'API :", error.response ? error.response.data : error.message);
+                document.getElementById('result').innerText = 'Erreur lors de la récupération des NFT: ' + (error.response ? error.response.data.message : error.message);
             }
         }
     </script>
 </body>
 </html>
+
 
 
