@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vérification du Solde de Token sur BaseScan</title>
+    <title>Vérification du Token sur BaseScan</title>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
-    <h1>Vérifiez le Solde de Token</h1>
+    <h1>Vérifiez votre possession de Token</h1>
     <input type="text" id="wallet" placeholder="Entrez une adresse Ethereum" value="0x0B386dC002C07118a8BA421Fb53425261B268cDa">
-    <button onclick="getTokenBalance()">Vérifier le Solde</button>
+    <button onclick="checkTokenOwnership()">Vérifier la Possession</button>
     <pre id="result"></pre>
 
     <script>
-        async function getTokenBalance() {
+        async function checkTokenOwnership() {
             const walletAddress = document.getElementById('wallet').value;
-            const contractAddress = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";
+            const contractAddress = "0x03A4BAF3c9450aa25eD21B042001F53D129caEb3";
             const apiKey = "I4RZUU557FXN8KRYCBV76JUGZZYJQDKF7F"; // Remplace par ta clé API
 
             const apiUrl = `https://api.basescan.org/api?module=account&action=tokenbalance&contractaddress=${contractAddress}&address=${walletAddress}&tag=latest&apikey=${apiKey}`;
@@ -25,7 +25,12 @@
                 const result = response.data;
 
                 if (result.status === "1") {
-                    document.getElementById('result').innerText = `Solde du token : ${result.result}`;
+                    const balance = parseInt(result.result);
+                    if (balance > 0) {
+                        document.getElementById('result').innerText = "Owned";
+                    } else {
+                        document.getElementById('result').innerText = "GET IT !";
+                    }
                 } else {
                     document.getElementById('result').innerText = 'Erreur : ' + result.message;
                 }
