@@ -3,40 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vérification des NFT sur Zora</title>
+    <title>Vérification des NFTs sur Zora</title>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
     <h1>Vérifiez les NFTs d'un Wallet sur Zora</h1>
     <input type="text" id="wallet" placeholder="Entrez une adresse Ethereum">
-    <button onclick="getNFTs()">Vérifier les NFT</button>
+    <button onclick="getTokens()">Vérifier les Tokens</button>
     <pre id="result"></pre>
 
     <script>
-        async function getNFTs() {
+        async function getTokens() {
             const walletAddress = document.getElementById('wallet').value;
             const apiUrl = `https://api.zora.energy/v1/nft/balances?owner=${walletAddress}`;
 
             try {
                 const response = await axios.get(apiUrl);
-                const nfts = response.data.data;
+                const items = response.data.items; // Modifié pour correspondre à la structure fournie
 
-                if (nfts && nfts.length > 0) {
-                    let output = nfts.map(nft => ({
-                        name: nft.token_instance.metadata.name,
-                        description: nft.token_instance.metadata.description,
-                        image_url: nft.token_instance.image_url,
-                        external_url: nft.token_instance.external_app_url
+                if (items && items.length > 0) {
+                    let output = items.map(item => ({
+                        name: item.name,
+                        address: item.address,
+                        symbol: item.symbol,
+                        exchange_rate: item.exchange_rate,
+                        total_supply: item.total_supply,
+                        icon_url: item.icon_url,
+                        token_url: item.token_url,
                     }));
                     
                     document.getElementById('result').innerText = JSON.stringify(output, null, 2);
                 } else {
-                    document.getElementById('result').innerText = 'Aucun NFT trouvé pour cette adresse.';
+                    document.getElementById('result').innerText = 'Aucun token trouvé pour cette adresse.';
                 }
             } catch (error) {
-                // Affichage de l'erreur détaillée
                 console.error("Erreur d'API :", error.response ? error.response.data : error.message);
-                document.getElementById('result').innerText = 'Erreur lors de la récupération des NFT: ' + (error.response ? error.response.data.message : error.message);
+                document.getElementById('result').innerText = 'Erreur lors de la récupération des tokens: ' + (error.response ? error.response.data.message : error.message);
             }
         }
     </script>
