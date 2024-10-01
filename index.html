@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vérification des NFT avec OpenSea</title>
+    <title>Vérification des NFT</title>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
-    <h1>Vérifiez les NFTs d'un Wallet via OpenSea</h1>
+    <h1>Vérifiez les NFTs d'un Wallet</h1>
     <input type="text" id="wallet" placeholder="Entrez une adresse Ethereum">
     <button onclick="getNFTs()">Vérifier les NFT</button>
     <pre id="result"></pre>
@@ -15,20 +15,22 @@
     <script>
         async function getNFTs() {
             const walletAddress = document.getElementById('wallet').value;
-            const apiUrl = `https://api.opensea.io/api/v1/assets?owner=${walletAddress}`;
+            const apiUrl = `https://api.covalenthq.com/v1/1/tokens/0x6f8f2b68e5b09be7cc4de20a71da12829065e83c/nft_metadata/?owner=${walletAddress}&key=ckey_your_key_here`;
 
             try {
                 const response = await axios.get(apiUrl);
-                const nfts = response.data.assets;
+                const nfts = response.data.data.items;
                 if (nfts.length > 0) {
                     document.getElementById('result').innerText = JSON.stringify(nfts, null, 2);
                 } else {
                     document.getElementById('result').innerText = 'Aucun NFT trouvé pour cette adresse.';
                 }
             } catch (error) {
+                console.error("Erreur d'API :", error);
                 document.getElementById('result').innerText = 'Erreur lors de la récupération des NFT';
             }
         }
     </script>
 </body>
 </html>
+
