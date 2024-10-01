@@ -15,7 +15,7 @@
     <script>
         async function checkTokenOwnership() {
             const walletAddress = document.getElementById('wallet').value;
-            const contractAddress = "0x5eE29000671EFAac472F59d7Cc32F8ab2268953d";
+            const contractAddress = "0x1195cf65f83b3a5768f3c496d3a05ad6412c64b7";
             const apiKey = "I4RZUU557FXN8KRYCBV76JUGZZYJQDKF7F"; // Remplace par ta clé API
 
             const apiUrl = `https://api.basescan.org/api?module=account&action=tokenbalance&contractaddress=${contractAddress}&address=${walletAddress}&tag=latest&apikey=${apiKey}`;
