@@ -1,47 +1,6 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vérification des NFTs sur Zora</title>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-</head>
-<body>
-    <h1>Vérifiez les NFTs d'un Wallet sur Zora</h1>
-    <input type="text" id="wallet" placeholder="Entrez une adresse Ethereum">
-    <button onclick="getTokens()">Vérifier les Tokens</button>
-    <pre id="result"></pre>
-
-    <script>
-        async function getTokens() {
-            const walletAddress = document.getElementById('wallet').value;
-            const nftToCheck = "0x4aD3cd57A68149A5C5D8a41919DC8aC02D00a366"; // Adresse du NFT à vérifier
-            const apiUrl = `https://api.zora.energy/v1/nft/balances?owner=${walletAddress}`;
-
-            try {
-                const response = await axios.get(apiUrl, {
-                    headers: {
-                        'Authorization': `Bearer 611bc4fa-0a58-40ed-8fa3-d0360c792a46`
-                    }
-                });
-                const items = response.data.items;
-
-                if (items && items.length > 0) {
-                    let nftFound = items.some(item => item.address === nftToCheck);
-
-                    if (nftFound) {
-                        document.getElementById('result').innerText = `Vous possédez le NFT avec l'adresse : ${nftToCheck}`;
-                    } else {
-                        document.getElementById('result').innerText = `Vous ne possédez pas le NFT avec l'adresse : ${nftToCheck}`;
-                    }
-                } else {
-                    document.getElementById('result').innerText = 'Aucun token trouvé pour cette adresse.';
-                }
-            } catch (error) {
-                console.error("Erreur d'API :", error.response ? error.response.data : error.message);
-                document.getElementById('result').innerText = 'Erreur lors de la récupération des tokens: ' + (error.response ? error.response.data.message : error.message);
-            }
-        }
-    </script>
-</body>
-</html>
+https://api.basescan.org/api
+   ?module=account
+   &action=tokenbalance
+   &contractaddress=0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913
+   &address=0x0B386dC002C07118a8BA421Fb53425261B268cDa
+   &tag=latest&apikey=I4RZUU557FXN8KRYCBV76JUGZZYJQDKF7F
