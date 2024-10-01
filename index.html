@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vérification des NFT</title>
+    <title>Vérification des NFT sur Zora</title>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
-    <h1>Vérifiez les NFTs d'un Wallet</h1>
+    <h1>Vérifiez les NFTs d'un Wallet sur Zora</h1>
     <input type="text" id="wallet" placeholder="Entrez une adresse Ethereum">
     <button onclick="getNFTs()">Vérifier les NFT</button>
     <pre id="result"></pre>
@@ -15,11 +15,12 @@
     <script>
         async function getNFTs() {
             const walletAddress = document.getElementById('wallet').value;
-            const apiUrl = `https://api.covalenthq.com/v1/1/tokens/0x6f8f2b68e5b09be7cc4de20a71da12829065e83c/nft_metadata/?owner=${walletAddress}&key=ckey_your_key_here`;
+            const apiUrl = `https://api.zora.energy/v1/nft/balances?owner=${walletAddress}`;
 
             try {
                 const response = await axios.get(apiUrl);
-                const nfts = response.data.data.items;
+                const nfts = response.data.data;
+
                 if (nfts.length > 0) {
                     document.getElementById('result').innerText = JSON.stringify(nfts, null, 2);
                 } else {
@@ -33,4 +34,5 @@
     </script>
 </body>
 </html>
+
 
