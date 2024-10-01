@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vérification du Token sur BaseScan</title>
+    <title>Vérification de NFT</title>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
-    <h1>Vérifiez votre possession de Token</h1>
+    <h1>Vérifiez votre possession de NFT</h1>
     
     <!-- Menu déroulant pour choisir la blockchain -->
     <label for="blockchain">Choisissez une blockchain :</label>
     <select id="blockchain">
         <option value="base">Base</option>
-        <!-- Tu peux ajouter d'autres blockchains ici -->
+        <!-- Ajoute d'autres blockchains ici si nécessaire -->
     </select>
 
     <input type="text" id="wallet" placeholder="Entrez une adresse Ethereum" value="0x0B386dC002C07118a8BA421Fb53425261B268cDa">
-    <button onclick="checkTokenOwnership()">Vérifier la Possession</button>
+    <button onclick="checkNftOwnership()">Vérifier la Possession du NFT</button>
     <pre id="result"></pre>
 
     <script>
-        async function checkTokenOwnership() {
+        async function checkNftOwnership() {
             const walletAddress = document.getElementById('wallet').value;
             const selectedBlockchain = document.getElementById('blockchain').value;
 
@@ -30,9 +30,9 @@
 
             // Vérifie quelle blockchain est sélectionnée et définit le contrat associé
             if (selectedBlockchain === "base") {
-                contractAddress = "0x03A4BAF3c9450aa25eD21B042001F53D129caEb3"; // Adresse du token sur Base
+                contractAddress = "0x1195cf65f83b3a5768f3c496d3a05ad6412c64b7"; // Adresse du NFT sur Base
             } 
-            // Tu peux ajouter d'autres blockchains et leurs contrats ici
+            // Ajoute d'autres blockchains et leurs contrats ici
 
             const apiUrl = `https://api.basescan.org/api?module=account&action=tokenbalance&contractaddress=${contractAddress}&address=${walletAddress}&tag=latest&apikey=${apiKey}`;
 
@@ -42,19 +42,18 @@
 
                 if (result.status === "1") {
                     const balance = parseInt(result.result);
-                    document.getElementById('result').innerText = `Solde du token : ${balance}`; // Afficher le solde pour débogage
 
                     if (balance > 0) {
-                        document.getElementById('result').innerText += "\nOwned";
+                        document.getElementById('result').innerText = "Owned";
                     } else {
-                        document.getElementById('result').innerText += "\nGET IT !";
+                        document.getElementById('result').innerText = "GET IT !";
                     }
                 } else {
                     document.getElementById('result').innerText = 'Erreur : ' + result.message;
                 }
             } catch (error) {
                 console.error("Erreur d'API :", error.response ? error.response.data : error.message);
-                document.getElementById('result').innerText = 'Erreur lors de la récupération du solde : ' + (error.response ? error.response.data.message : error.message);
+                document.getElementById('result').innerText = 'Erreur lors de la récupération de la possession : ' + (error.response ? error.response.data.message : error.message);
             }
         }
     </script>
